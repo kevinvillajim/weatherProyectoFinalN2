@@ -1,15 +1,17 @@
+// Iconos MUI
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import PlaceIcon from "@mui/icons-material/Place";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+// Components
 import Card from "./components/Card";
 import Card2 from "./components/Card2";
 import Brujula from "./components/Brujula";
-import CloseIcon from "@mui/icons-material/Close";
-import SearchIcon from "@mui/icons-material/Search";
-import "./App.css";
 import ProgressBar from "./components/ProgressBar";
+import "./App.css";
 import { useEffect, useState } from "react";
 
-// -------Fecha hoy------
+// -------Fecha hoy y de los proximos 5 dias------
 
 const tiempoTranscurrido = Date.now();
 const daysWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -55,6 +57,7 @@ function App() {
   const [visibleSearch, setVisibleSearch] = useState(false);
   const [city, setCity] = useState("");
 
+  //Función de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -64,10 +67,12 @@ function App() {
     setLon(null);
   };
 
+  //Función de cambio de estado (visible, no visible), barra izquierda
   const toggleVisibleSearch = () => {
     setVisibleSearch(!visibleSearch);
   };
 
+  //Cambio de grados a Fahrenheit o Celcius
   const handleCelcius = () => {
     setGrades(false);
   };
@@ -76,6 +81,7 @@ function App() {
     setGrades(true);
   };
 
+  //Use effect que trae la información de la latitud y longitud según la busqueda de ciudad del usuario
   useEffect(() => {
     if (city === null) return;
     const getData = async () => {
@@ -89,6 +95,10 @@ function App() {
     };
     getData();
   }, [city, grades]);
+
+  //Use effect que trae la información del clima según la latitud y longitud ingresadas, o la ubicación pedida con pérmisos
+  //el data trae los datos de la api general y esa data se utiliza en el programa para imprimir casi todo el contienido a exepcion
+  //de las tarjetas pequeñas del clima venidero (data2, link 2)
 
   useEffect(() => {
     if (lat === null && lon === null) return;
@@ -111,6 +121,7 @@ function App() {
     getData();
   }, [lat, lon, grades]);
 
+  // Funciones para pedir ubicación al navegador
   const handleSucess = (data) => {
     const { latitude, longitude } = data.coords;
     setLat(latitude);
@@ -126,6 +137,8 @@ function App() {
   const handleLocation = () => {
     navigator.geolocation.getCurrentPosition(handleSucess, handleError);
   };
+
+  //Funciónes para formatear los nombres de las imagenes del clima
 
   function capitalizeEveryWord(text) {
     if (text === null || text === undefined) {
