@@ -55,7 +55,7 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [futureWeather, setFutureWeather] = useState(null);
   const [visibleSearch, setVisibleSearch] = useState(false);
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("quito");
 
   //Función de búsqueda
   const handleSearch = (e) => {
@@ -85,8 +85,7 @@ function App() {
   useEffect(() => {
     if (city === null) return;
     const getData = async () => {
-      const link3 = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}${
-        grades === false ? "&units=metric" : "&units=imperial"
+      const link3 = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}
       }`;
       const res3 = await fetch(link3);
       const data3 = await res3.json();
@@ -94,7 +93,7 @@ function App() {
       setLon(data3.coord.lon);
     };
     getData();
-  }, [city, grades]);
+  }, [city]);
 
   //Use effect que trae la información del clima según la latitud y longitud ingresadas, o la ubicación pedida con pérmisos
   //el data trae los datos de la api general y esa data se utiliza en el programa para imprimir casi todo el contienido a exepcion
@@ -119,7 +118,7 @@ function App() {
       setFutureWeather(data2);
     };
     getData();
-  }, [lat, lon, grades]);
+  }, [lat, lon, city, grades]);
 
   // Funciones para pedir ubicación al navegador
   const handleSucess = (data) => {
