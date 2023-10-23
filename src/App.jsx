@@ -85,8 +85,7 @@ function App() {
   useEffect(() => {
     if (city === null) return;
     const getData = async () => {
-      const link3 = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}
-      }`;
+      const link3 = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
       const res3 = await fetch(link3);
       const data3 = await res3.json();
       setLat(data3.coord.lat);
