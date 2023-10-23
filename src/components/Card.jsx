@@ -4,7 +4,7 @@ const Card = ({ day, img, maxDegrees, minDegrees }) => {
   return (
     <div className="card-container">
       <span className="day">{day}</span>
-      <img className="card-img" src={`./public/img/${img}.png`} />
+      <img className="card-img" src={`/public/img/${img}.png`} />
       <div className="max-min-container">
         <div>
           <span className="max-degrees">{maxDegrees}°C</span>

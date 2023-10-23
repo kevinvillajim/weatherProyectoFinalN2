@@ -190,9 +190,9 @@ function App() {
             <div id="main-img-container">
               <img
                 id="background-image"
-                src="./public/img/Cloud-background.png"
+                src="/public/img/Cloud-background.png"
               />
-              <img id="main-img" src={`./public/img/${textoSinEspacios}.png`} />
+              <img id="main-img" src={`/public/img/${textoSinEspacios}.png`} />
             </div>
             <div id="text-container">
               <div id="degrees-container">
@@ -222,7 +222,7 @@ function App() {
                 <span className="date" id="place">
                   {currentWeather && currentWeather.name
                     ? currentWeather.name
-                    : "Ubicación Desconocida**"}
+                    : "Helsinki"}
                 </span>
               </div>
             </div>

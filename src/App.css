@@ -452,3 +452,93 @@ form {
 .bar-container {
   margin: 0.1rem 0;
 }
+
+@media (max-width: 1100px) {
+  #total-container {
+    flex-direction: column;
+    width: 100;
+  }
+
+  #left-container {
+    width: 100%;
+    height: 100vh;
+  }
+
+  #background-image {
+    width: 75%;
+    left: auto;
+  }
+
+  #main-img {
+    width: 28%;
+  }
+
+  #main-img-container {
+    padding-bottom: 0;
+    height: 100px;
+  }
+
+  #type-container {
+    padding: 1rem 0;
+  }
+
+  #place-container {
+    padding: 1rem 0;
+  }
+
+  #right-container {
+    width: 100%;
+    height: auto;
+    padding: 3rem;
+  }
+
+  #prediction-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 20px;
+    padding: 0;
+    margin: 0 0 3rem 0;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .card-container {
+    width: 100%;
+  }
+
+  #buttons-degrees-container {
+    display: none;
+  }
+
+  #today-highlights-title {
+    margin: 3rem 0;
+  }
+
+  #highlights-container-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0;
+    margin: 3rem 0 3rem 0;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cardContainerA {
+    width: 100%;
+  }
+
+  #left-container-search {
+    width: 100%;
+    height: 100vh;
+  }
+
+  #favourite-countries {
+    margin-bottom: 25rem;
+  }
+
+  #text-container {
+    height: auto;
+    padding-top: 2rem;
+  }
+}
