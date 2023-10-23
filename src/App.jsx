@@ -190,9 +190,12 @@ function App() {
             <div id="main-img-container">
               <img
                 id="background-image"
-                src="/public/img/Cloud-background.png"
+                src="https://raw.githubusercontent.com/kevinvillajim/weatherProyectoFinalN2/main/public/img/Cloud-background.png"
               />
-              <img id="main-img" src={`/public/img/${textoSinEspacios}.png`} />
+              <img
+                id="main-img"
+                src={`https://raw.githubusercontent.com/kevinvillajim/weatherProyectoFinalN2/main/public/img/${textoSinEspacios}.png`}
+              />
             </div>
             <div id="text-container">
               <div id="degrees-container">
