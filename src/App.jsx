@@ -55,7 +55,7 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [futureWeather, setFutureWeather] = useState(null);
   const [visibleSearch, setVisibleSearch] = useState(false);
-  const [city, setCity] = useState("quito");
+  const [city, setCity] = useState(null);
 
   //Función de búsqueda
   const handleSearch = (e) => {
