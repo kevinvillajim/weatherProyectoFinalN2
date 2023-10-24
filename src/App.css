@@ -118,10 +118,16 @@ form {
   background-color: #100e1d;
 }
 
+#right-container-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 #buttons-container {
   display: flex;
   justify-content: space-between;
   padding: 1.5rem 2rem 3rem 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .buttons-left {
@@ -152,17 +158,18 @@ form {
   opacity: 0.2;
   position: absolute;
   left: -3rem;
-  top: -5;
+  top: 5rem;
   width: 40%;
   height: auto;
+  object-fit: cover;
 }
 
 #main-img-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 1rem;
   object-fit: cover;
+  height: 234px;
 }
 
 #main-img {
@@ -175,7 +182,6 @@ form {
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100%;
 }
 
 #degrees {
@@ -232,6 +238,16 @@ form {
   border-radius: 100%;
   font-size: 18px;
   font-weight: 900;
+  cursor: pointer;
+}
+
+#favourite {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
 }
 
 .degree-active {
@@ -461,12 +477,12 @@ form {
 
   #left-container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
 
   #background-image {
     width: 75%;
-    left: auto;
+    left: 10%;
   }
 
   #main-img {
@@ -476,6 +492,7 @@ form {
   #main-img-container {
     padding-bottom: 0;
     height: 100px;
+    margin: 2rem 0;
   }
 
   #type-container {
@@ -534,11 +551,11 @@ form {
   }
 
   #favourite-countries {
-    margin-bottom: 25rem;
+    margin-bottom: 28rem;
   }
 
   #text-container {
     height: auto;
-    padding-top: 2rem;
+    padding: 3rem 0;
   }
 }

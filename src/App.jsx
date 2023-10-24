@@ -3,6 +3,8 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import PlaceIcon from "@mui/icons-material/Place";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import GradeIcon from "@mui/icons-material/Grade";
 // Components
 import Card from "./components/Card";
 import Card2 from "./components/Card2";
@@ -48,6 +50,7 @@ for (let i = 1; i <= 5; i++) {
 //-----------------------
 
 function App() {
+  //Constantes
   const apiKey = "fdc81c13f3bc0e408acd4f11ab5e2379";
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
@@ -55,16 +58,64 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [futureWeather, setFutureWeather] = useState(null);
   const [visibleSearch, setVisibleSearch] = useState(false);
-  const [city, setCity] = useState(null);
+  const [city, setCity] = useState("quito");
+  const [favourite, setFavourite] = useState(false);
+  const [favouriteCities, setFavouriteCities] = useState([
+    { city: "Quito", lat: -0.22985, lon: -78.52495 },
+  ]);
+  // Función para seleccionar select de ciudades favoritas
+  const selectFavouriteCity = (num) => {
+    const selectedCity = favouriteCities[num];
+    setLat(selectedCity.lat);
+    setLon(selectedCity.lon);
+    setVisibleSearch(!visibleSearch);
+  };
+
+  useEffect(() => {
+    // Verificar si la ciudad actual está en la lista de ciudades favoritas
+    const isFavourite = favouriteCities.some(
+      (city) => city.city === currentWeather?.name
+    );
+    // Actualizar el estado `favourite` solo si la ciudad actual está en la lista
+    if (isFavourite) {
+      setFavourite(true);
+    } else {
+      setFavourite(false);
+    }
+  }, [currentWeather, favouriteCities]);
+
+  //Función para guardar ciudad en favoritos
+  const toggleFavourite = () => {
+    if (currentWeather && currentWeather.name && lat && lon) {
+      const favouritePlace = {
+        city: currentWeather.name,
+        lat: lat,
+        lon: lon,
+      };
+
+      // Agregar o eliminar la ciudad favorita basándose en si ya existe
+      if (favouriteCities.some((city) => city.city === currentWeather.name)) {
+        setFavourite(false);
+        setFavouriteCities(
+          favouriteCities.filter((city) => city.city !== currentWeather.name)
+        );
+      } else {
+        // La ciudad no está en la lista, agregarla
+        setFavourite(true);
+        setFavouriteCities([...favouriteCities, favouritePlace]);
+      }
+    }
+  };
 
   //Función de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
 
     const ciudad = e.target[0].value.toLowerCase();
-    setCity(ciudad);
     setLat(null);
     setLon(null);
+    setCity(ciudad);
+    toggleVisibleSearch();
   };
 
   //Función de cambio de estado (visible, no visible), barra izquierda
@@ -94,13 +145,13 @@ function App() {
     getData();
   }, [city]);
 
-  //Use effect que trae la información del clima según la latitud y longitud ingresadas, o la ubicación pedida con pérmisos
-  //el data trae los datos de la api general y esa data se utiliza en el programa para imprimir casi todo el contienido a exepcion
+  //Use effect que trae la información del clima según la latitud y longitud ingresadas, o la ubicación pedida con pérmisos al usuario
+  //el "data" trae los datos de la api general y esa data se utiliza en el programa para imprimir casi todo el contienido a exepcion
   //de las tarjetas pequeñas del clima venidero (data2, link 2)
 
   useEffect(() => {
     if (lat === null && lon === null) return;
-
+    // Fetch información de clima del lugar
     const getData = async () => {
       const link = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}${
         grades === false ? "&units=metric" : "&units=imperial"
@@ -108,6 +159,8 @@ function App() {
       const res = await fetch(link);
       const data = await res.json();
       setCurrentWeather(data);
+
+      //Fetch de pronostico del tiempo proximos 5 dias
 
       const link2 = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}${
         grades === false ? "&units=metric" : "&units=imperial"
@@ -136,7 +189,7 @@ function App() {
     navigator.geolocation.getCurrentPosition(handleSucess, handleError);
   };
 
-  //Funciónes para formatear los nombres de las imagenes del clima
+  //Funciónes para formatear los nombres de las imagenes del clima para pantalla e imagenes
 
   function capitalizeEveryWord(text) {
     if (text === null || text === undefined) {
@@ -185,11 +238,11 @@ function App() {
                 <MyLocationIcon></MyLocationIcon>
               </button>
             </div>
+            <img
+              id="background-image"
+              src="https://raw.githubusercontent.com/kevinvillajim/weatherProyectoFinalN2/main/public/img/Cloud-background.png"
+            />
             <div id="main-img-container">
-              <img
-                id="background-image"
-                src="https://raw.githubusercontent.com/kevinvillajim/weatherProyectoFinalN2/main/public/img/Cloud-background.png"
-              />
               <img
                 id="main-img"
                 src={`https://raw.githubusercontent.com/kevinvillajim/weatherProyectoFinalN2/main/public/img/${textoSinEspacios}.png`}
@@ -228,10 +281,6 @@ function App() {
               </div>
             </div>
           </div>
-          <div id="search-container">
-            <div id="search-bar-container"></div>
-            <div id="cities-cotainer"></div>
-          </div>
         </div>
         <div
           id="left-container-search"
@@ -269,36 +318,63 @@ function App() {
             </form>
           </div>
           <div id="favourite-countries">
-            <select id="favourite-countries-select">
-              <option className="options">option 1</option>
-              <option className="options">option 2</option>
-              <option className="options">option 3</option>
+            <select
+              id="favourite-countries-select"
+              onChange={(e) => selectFavouriteCity(e.target.value)}
+            >
+              <option disabled selected>
+                Ciudades Favoritas
+              </option>
+              {favouriteCities.map((city, index) => (
+                <option key={index} value={index}>
+                  {city.city}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <div id="right-container">
-          <div id="buttons-degrees-container">
-            <button
-              type="button"
-              className={`button-degrees ${
-                grades === false ? "degree-active" : "degree-inactive"
-              }`}
-              id="celcius"
-              onClick={handleCelcius}
-            >
-              °C
-            </button>
-            <button
-              type="button"
-              className={`button-degrees ${
-                grades === true ? "degree-active" : "degree-inactive"
-              }`}
-              id="fahrenheit"
-              onClick={handleFahrenheit}
-            >
-              °F
-            </button>
+          <div id="right-container-buttons">
+            <div id="buttons-favourite-container">
+              <button
+                type="button"
+                className="favourite"
+                id="favourite"
+                onClick={toggleFavourite}
+              >
+                {favourite ? (
+                  <GradeIcon
+                    sx={{ color: "#FFEC65", border: "border: 1px solid black" }}
+                  />
+                ) : (
+                  <StarOutlineIcon />
+                )}
+              </button>
+            </div>
+            <div id="buttons-degrees-container">
+              <button
+                type="button"
+                className={`button-degrees ${
+                  grades === false ? "degree-active" : "degree-inactive"
+                }`}
+                id="celcius"
+                onClick={handleCelcius}
+              >
+                °C
+              </button>
+              <button
+                type="button"
+                className={`button-degrees ${
+                  grades === true ? "degree-active" : "degree-inactive"
+                }`}
+                id="fahrenheit"
+                onClick={handleFahrenheit}
+              >
+                °F
+              </button>
+            </div>
           </div>
+
           <div id="prediction-cards-container">
             <Card
               day="Tomorrow"
