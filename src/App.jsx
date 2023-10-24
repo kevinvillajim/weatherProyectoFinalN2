@@ -58,7 +58,7 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [futureWeather, setFutureWeather] = useState(null);
   const [visibleSearch, setVisibleSearch] = useState(false);
-  const [city, setCity] = useState("quito");
+  const [city, setCity] = useState(null);
   const [favourite, setFavourite] = useState(false);
   const [favouriteCities, setFavouriteCities] = useState([
     { city: "Quito", lat: -0.22985, lon: -78.52495 },
